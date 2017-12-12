@@ -4,32 +4,21 @@
 #include <math.h>
 
 double value_omp(double dx, double dy, double rangeStart, double rangeEnd) {
-	int xCount = ceil((rangeEnd - rangeStart)/dx);
-	int yCount = ceil((rangeEnd - rangeStart)/dy);
-	double values[xCount][yCount];
-
 	omp_set_num_threads(4);
-
+	double value = 0.0;
+	int i, j;
 	#pragma omp parallel
 	{	
-		int i, j;
-		int threads = omp_get_num_threads();
-		int threadNumber = omp_get_thread_num();
-		for(i = threadNumber; i < xCount; i += threads) {
+		double sum = 0.0;
+		for(i = 0; i < rangeEnd/dx; i++) {
 			double x = i * dx;
-			for(j = 0; j < yCount; j++) {
+			for(j = 0; j < rangeEnd/dy; j++) {
 				double y = j * dy;
-				values[i][j] = function(x, y) * dx * dy;
+				sum += function(x, y) * dx * dy;
 			}
 		}
-	}
-
-	int i,j;
-	double value = 0.0;
-	for(i = 0; i < xCount; i++) {
-		for (j = 0; j < yCount; j++) {
-			value += values[i][j];
-		}
+		#pragma omp critical
+		value += sum;
 	}
 
 	return value;
