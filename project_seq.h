@@ -1,6 +1,8 @@
 #ifndef PROJECT_SEQ
 #define PROJECT_SEQ
 
-double value_seq(double dx, double dy, double rangeStart, double rangeEnd);
+#include "range.h"
+
+double value_seq(struct range xRange, struct range yRange);
 
 #endif // PROJECT_SEQ

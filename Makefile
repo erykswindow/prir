@@ -1,16 +1,16 @@
 CC = gcc-7 -fopenmp
 
-all: project_seq.o project_omp.o
-	$(CC) function.o project_seq.o project_omp.o project.c -o executable.out
+all: project_seq.o range.o
+	$(CC) function.o project_seq.o range.o project.c -o executable.out
+
+project_seq.o: function.o range.o project_seq.c project_seq.h
+	$(CC) -c function.o range.o project_seq.c -o project_seq.o
+
+range.o: range.c range.h
+	$(CC) -c range.c -o range.o
 
 function.o: function.c function.h
 	$(CC) -c function.c -o function.o
-
-project_seq.o: function.o project_seq.c project_seq.h
-	$(CC) -c function.o project_seq.c -o project_seq.o
-
-project_openmp.o: function.o project_omp.c project_omp.h
-	$(CC) -c function.o project_omp.c -o project_omp.o
 
 clean:
 	rm -f *.o executable.out
