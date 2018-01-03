@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "project_seq.h"
+#include "project_omp.h"
 #include <omp.h>
 #include "range.h"
 
@@ -19,7 +20,12 @@ int main(int argc, char * argv[] ) {
 	double value_s = value_seq(xRange, yRange);
 	double seq_duration = omp_get_wtime() - startTime;
 
-	printf("Value Seq: %1.20f in %f\n", value_s, seq_duration);
+	startTime = omp_get_wtime();
+	double value_o = value_omp(xRange, yRange);
+	double omp_duration = omp_get_wtime() - startTime;
+
+	printf("Value Sequential: %1.20f in %f\n", value_s, seq_duration);
+	printf("Value OpenMP: %1.20f in %f\n", value_o, omp_duration);
 
 	return 0;
 }
