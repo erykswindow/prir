@@ -79,8 +79,8 @@ timeTableName = './results/%s/time.csv' % sys.argv[2]
 
 with open(timeTableName, 'w+') as tFile, open(errorTableName, 'w+') as eFile:
 
-	tFile.write('N/threads,')
-	eFile.write('N/threads,')
+	tFile.write('N/threads;')
+	eFile.write('N/threads;')
 
 	for i in range(0, len(Ts)):
 		value = '%d' % Ts[i]
@@ -94,7 +94,7 @@ with open(timeTableName, 'w+') as tFile, open(errorTableName, 'w+') as eFile:
 			eFile.write(';')
 			
 	for i in range(0, len(Ns)):
-		value = '%.1e,' % Ns[i]
+		value = '%.1e;' % Ns[i]
 		tFile.write(value)
 		eFile.write(value)
 		for j in range(0, len(Ts)):

@@ -9,7 +9,7 @@ mkdir -p "results"
 mkdir "./results/$CURRENT_DATE"
 
 touch "$RESULTS_FILE"
-
+# for stepCount in 1000 2000 3000 4000 5000; do
 for stepCount in 10000 20000 30000 40000 50000; do
 	for threads in 1 2 4 8 16; do
 		VALUE=$(./executable.out $stepCount $threads)

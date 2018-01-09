@@ -8,6 +8,7 @@ double value_omp(struct range xRange, struct range yRange, int threads) {
 	double value = 0.0;
 	double dx = stepSize(xRange);
 	double dy = stepSize(yRange);
+	
 	int chunk = xRange.stepCount/threads;
 	
 	#pragma omp parallel for num_threads(threads) schedule(static, chunk) reduction(+:value)

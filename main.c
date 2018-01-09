@@ -1,9 +1,9 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "project_seq.h"
-#include "project_omp.h"
+#include <math.h>
 #include <omp.h>
+
+#include "project_omp.h"
 #include "range.h"
 
 int main(int argc, char ** argv) {
