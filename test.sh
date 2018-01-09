@@ -9,7 +9,6 @@ mkdir -p "results"
 mkdir "./results/$CURRENT_DATE"
 
 touch "$RESULTS_FILE"
-# touch "$DATA_FILE"
 
 for stepCount in 10000 20000 30000 40000 50000; do
 	for threads in 1 2 4 8 16; do
