@@ -1,4 +1,4 @@
-CC = gcc-7 -fopenmp -march=native -O3
+CC = gcc-7 -fopenmp -march=native -O2
 
 all: project_seq.o project_omp.o function.o range.o
 	$(CC) function.o project_seq.o project_omp.o range.o project.c -o executable.out
