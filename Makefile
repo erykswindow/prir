@@ -1,6 +1,6 @@
 CC = mpicc -march=native -O2
 
-all: project_mpi.o function.o range.o minmax.h
+all: project_mpi.o function.o range.o
 	$(CC) function.o project_mpi.o range.o main.c -o executable.out
 
 project_omp.o: function.o range.o project_omp.c project_omp.h

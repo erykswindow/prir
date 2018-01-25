@@ -6,7 +6,6 @@
 
 #include "project_mpi.h"
 #include "range.h"
-#include "minmax.h"
 
 int main(int argc, char ** argv) {
 	struct range xRange, yRange;
