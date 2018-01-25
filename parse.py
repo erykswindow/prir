@@ -4,12 +4,6 @@ import sys
 import csv
 import matplotlib.pyplot as plt
 
-N = []
-threads = []
-subthreads = []
-error = []
-time = []
-
 def remove_repeats(x):
 	result = []
 	for i in range(0, len(N)):
@@ -37,8 +31,29 @@ def empty_array_dictionary(keys):
 		returnValue[key] = []
 	return returnValue
 
+def writeCSV(name, row_column_name, rows, columns, valuesDict):
+	with open(name, 'w+') as file:
+		writer = csv.writer(file)
 
-with open(sys.argv[1], 'rb') as csvfile:
+		writer.writerow([row_column_name] + columns)
+
+		for row in rows:
+			rowTitle = '%.1e;' % row
+			values = ['%e' % valuesDict[(row,column)] for column in columns]
+			writer.writerow([rowTitle] + values)
+
+		file.close()
+
+
+
+N = []
+threads = []
+subthreads = []
+error = []
+time = []
+
+filename = sys.argv[1]
+with open(filename, 'rb') as csvfile:
 	reader = csv.reader(csvfile, delimiter=",")
 
 	for row in reader:
@@ -54,62 +69,25 @@ Ts = remove_repeats(threads)
 valuesDict = empty_array_dictionary(Ns)
 errorsDict = empty_array_dictionary(Ns)
 
-ttn = zip(threads, time, error, N)
-
-for thread, time, error, n in ttn:
-	valuesDict[n].append((thread, time))
-	errorsDict[n].append((thread, error))
-
-timeChartName = './results/%s/time.png' % sys.argv[2]
-errorChartName = './results/%s/error.png' % sys.argv[2]
-
-plot(timeChartName, valuesDict, Ns,  '-x', 'Liczba watkow [j]', 'Czas obliczen [s]')
-plot(errorChartName, errorsDict, Ns, '-o', 'Liczba watkow [j]', 'Blad[j]')
-
 timesDict = {}
 errorDict = {}
+
+ttn = zip(threads, time, error, N)
 
 for thread, time, error, n in ttn:
 	key = (n, thread)
 	timesDict[key] = time
 	errorDict[key] = error
+	valuesDict[n].append((thread, time))
+	errorsDict[n].append((thread, error))
 
-errorTableName = './results/%s/error.csv' % sys.argv[2]
-timeTableName = './results/%s/time.csv' % sys.argv[2]
+folderName = sys.argv[2]
+timeChartName = './results/%s/time.png' % folderName
+errorChartName = './results/%s/error.png' % folderName
+timeTableName = './results/%s/time.csv' % folderName
+errorTableName = './results/%s/error.csv' % folderName
 
-with open(timeTableName, 'w+') as tFile, open(errorTableName, 'w+') as eFile:
-
-	tFile.write('N/threads;')
-	eFile.write('N/threads;')
-
-	for i in range(0, len(Ts)):
-		value = '%d' % Ts[i]
-		tFile.write(value)
-		eFile.write(value)
-		if i + 1 == len(Ts):
-			tFile.write('\n')
-			eFile.write('\n')
-		else:
-			tFile.write(';')
-			eFile.write(';')
-			
-	for i in range(0, len(Ns)):
-		value = '%.1e;' % Ns[i]
-		tFile.write(value)
-		eFile.write(value)
-		for j in range(0, len(Ts)):
-			n = Ns[i]
-			t = Ts[j]
-			key = (n,t)
-			tFile.write('%e' % timesDict[key])
-			eFile.write('%e' % errorDict[key])
-			if j + 1 == len(Ts):
-				tFile.write('\n')
-				eFile.write('\n')
-			else:
-				tFile.write(';')
-				eFile.write(';')
-
-	tFile.close()
-	eFile.close()
-		
+plot(timeChartName, valuesDict, Ns,  '-x', 'Liczba watkow [j]', 'Czas obliczen [s]')
+plot(errorChartName, errorsDict, Ns, '-o', 'Liczba watkow [j]', 'Blad[j]')
+writeCSV(errorTableName, 'N/threads', Ns, Ts, errorDict)
+writeCSV(timeTableName, 'N/threads', Ns, Ts, timesDict)
