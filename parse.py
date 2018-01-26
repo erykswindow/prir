@@ -87,7 +87,7 @@ errorChartName = './results/%s/error.png' % folderName
 timeTableName = './results/%s/time.csv' % folderName
 errorTableName = './results/%s/error.csv' % folderName
 
-plot(timeChartName, valuesDict, Ns,  '-x', 'Liczba watkow [j]', 'Czas obliczen [s]')
-plot(errorChartName, errorsDict, Ns, '-o', 'Liczba watkow [j]', 'Blad[j]')
+plot(timeChartName, valuesDict, Ns,  '-x', 'Liczba procesow [j]', 'Czas obliczen [s]')
+plot(errorChartName, errorsDict, Ns, '-o', 'Liczba procesow [j]', 'Blad[j]')
 writeCSV(errorTableName, 'N/threads', Ns, Ts, errorDict)
 writeCSV(timeTableName, 'N/threads', Ns, Ts, timesDict)

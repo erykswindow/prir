@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <mpi.h>
-#include <omp.h>
 
 #include "project_mpi.h"
 #include "range.h"
